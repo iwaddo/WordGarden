@@ -25,17 +25,38 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        // enables or disables the guess letter button based on the text field being empty or not, used here to set the defualt to disabled.
+        let text = guessedLetterTextField.text!
+        guessLetterButton.isEnabled = !(text.isEmpty)
+    }
+    
+    func updateUIAfterGuess() {
+        // This dismisses the keyboard
+        guessedLetterTextField.resignFirstResponder()
+        guessedLetterTextField.text = ""
+        guessLetterButton.isEnabled = false
     }
     
     
     @IBAction func guessLetterButtonPressed(_ sender: UIButton) {
+        // dismiss the keyboard
+        updateUIAfterGuess()
     }
     
     @IBAction func playAgainButtonPressed(_ sender: UIButton) {
     }
     
+    @IBAction func guessedLetterFieldChanged(_ sender: UITextField) {
+        // enables or disables the guess letter button based on the text field being empty or not
+        let text = guessedLetterTextField.text!
+        guessLetterButton.isEnabled = !(text.isEmpty)
+    }
     
+    @IBAction func doneKeyPressed(_ sender: UITextField) {
+        // dismiss the keyboard
+        updateUIAfterGuess()
+        
+    }
     
     
 }
