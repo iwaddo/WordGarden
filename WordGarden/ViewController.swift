@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         // This dismisses the keyboard
         guessedLetterTextField.resignFirstResponder()
         guessedLetterTextField.text = ""
-        guessLetterButton.isEnabled = false
+        guessLetterButton.isEnabled = false 
     }
     
     
@@ -48,8 +48,8 @@ class ViewController: UIViewController {
     
     @IBAction func guessedLetterFieldChanged(_ sender: UITextField) {
         // enables or disables the guess letter button based on the text field being empty or not
-        let text = guessedLetterTextField.text!
-        guessLetterButton.isEnabled = !(text.isEmpty)
+        sender.text = String(sender.text!.last ?? " ").trimmingCharacters(in: .whitespaces)
+        guessLetterButton.isEnabled = !(sender.text!.isEmpty)
     }
     
     @IBAction func doneKeyPressed(_ sender: UITextField) {
