@@ -48,7 +48,7 @@ class ViewController: UIViewController {
     
     @IBAction func guessedLetterFieldChanged(_ sender: UITextField) {
         // enables or disables the guess letter button based on the text field being empty or not
-        sender.text = String(sender.text!.last ?? " ").trimmingCharacters(in: .whitespaces)
+        sender.text = String(sender.text?.last ?? " ").trimmingCharacters(in: .whitespaces)
         guessLetterButton.isEnabled = !(sender.text!.isEmpty)
     }
     
