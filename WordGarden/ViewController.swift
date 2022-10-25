@@ -135,50 +135,61 @@ class ViewController: UIViewController {
         // let currentLetterGuessed = guessedLetterTextField.text!.uppercased()
         // yes, it worked but it is better added to the IBAction guessLetterFieldChnaged
         let currentLetterGuessed = guessedLetterTextField.text!
-        lettersGuessed = lettersGuessed + currentLetterGuessed
-                
-        formatRevealWord()
-        
-        drawFlowerAndPlaySound(currentLetterGuessed: currentLetterGuessed)
-        
-        
-        
-        // update gameStatusMessageLabel
-        guessCount += 1
-//        var guesses = "Guesses"
-//        if guessCount == 1{
-//            guesses = "Guess"
-//        }
-        // using the ternary operator
-        let guesses = (guessCount == 1 ? "Guess" : "Gueses")
-        gameStatusMessageLabel.text = "You've Made \(guessCount) \(guesses)"
-        
-        // After each guess, check to see if two things happen:
-        // 1) The user won the game
-        // - all letters are guessed, so there are no more underscores in wordBeingRevealed.text
-        // - handle game over
-        
-        if wordBeingRevealedLabel.text!.contains("_") == false {
-            gameStatusMessageLabel.text = "You've guessed it!\nIt took you \(guessCount) guesses to guess the word"
-            wordsGuessedCount += 1
-            // play the word guessed correctly sound
-            playSound(soundfile: "word-guessed")
-            updateAfterWinOrLose()
-        } else if wrongGuessesRemaining == 0 {
-            gameStatusMessageLabel.text = "So sorry! You're all out of guesses"
-            wordsMissedCount += 1
-            // play the word not guessed sound
-            // the line below has been commented out so as it not to clash with the dispatch and transitions above
-            // playSound(soundfile: "word-not-guessed")
-            updateAfterWinOrLose()
 
+        // CHECK TO SEE IF THE LETTER HAS ALREDAY BEEN GUESSED
+
+        if lettersGuessed.contains(currentLetterGuessed) == false {
+            
+            
+            
+            
+            lettersGuessed = lettersGuessed + currentLetterGuessed
+            
+            formatRevealWord()
+            
+            drawFlowerAndPlaySound(currentLetterGuessed: currentLetterGuessed)
+            
+            
+            
+            // update gameStatusMessageLabel
+            guessCount += 1
+            //        var guesses = "Guesses"
+            //        if guessCount == 1{
+            //            guesses = "Guess"
+            //        }
+            // using the ternary operator
+            let guesses = (guessCount == 1 ? "Guess" : "Gueses")
+            gameStatusMessageLabel.text = "You've Made \(guessCount) \(guesses)"
+            
+            // After each guess, check to see if two things happen:
+            // 1) The user won the game
+            // - all letters are guessed, so there are no more underscores in wordBeingRevealed.text
+            // - handle game over
+            
+            if wordBeingRevealedLabel.text!.contains("_") == false {
+                gameStatusMessageLabel.text = "You've guessed it!\nIt took you \(guessCount) guesses to guess the word"
+                wordsGuessedCount += 1
+                // play the word guessed correctly sound
+                playSound(soundfile: "word-guessed")
+                updateAfterWinOrLose()
+            } else if wrongGuessesRemaining == 0 {
+                gameStatusMessageLabel.text = "So sorry! You're all out of guesses"
+                wordsMissedCount += 1
+                // play the word not guessed sound
+                // the line below has been commented out so as it not to clash with the dispatch and transitions above
+                // playSound(soundfile: "word-not-guessed")
+                updateAfterWinOrLose()
+                
+            }
+            
+            // check to see if you've played all the words. If so, update the message indicating the player can restart the entire game.
+            if currentWordIndex == wordsToGuess.count {
+                gameStatusMessageLabel.text! += "\n\nYou've tried all of the words! Restart from the beginning?"
+            }
+        } else {
+            print("The letter \(currentLetterGuessed) has already been guessed")
+            playSound(soundfile: "duplicate-letter")
         }
-        
-        // check to see if you've played all the words. If so, update the message indicating the player can restart the entire game.
-        if currentWordIndex == wordsToGuess.count {
-            gameStatusMessageLabel.text! += "\n\nYou've tried all of the words! Restart from the beginning?"
-        }
-        
     }
     
     // Function to playsound
@@ -192,7 +203,7 @@ class ViewController: UIViewController {
             }
             
         } else {
-            print("ERROR: Could not read data from file sound0")
+            print("ERROR: Could not read data from file \(soundfile)")
         }
 
     }
